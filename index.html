@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        .container {
+            padding: 20px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        @media (max-width: 600px) {
+            header {
+                font-size: 18px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Question Generator App</h1>
+    </header>
+    <div class="container">
+        <p>Select a category and shake your device to generate a question!</p>
+        <select id="categorySelector">
+            <option value="science">Science</option>
+            <option value="history">History</option>
+            <option value="geography">Geography</option>
+            <option value="art">Art</option>
+        </select>
+        <button id="generateButton">Generate Question</button>
+        <p id="questionDisplay"></p>
+    </div>
+    <script>
+        const questions = {
+            science: ["What is the chemical symbol for water?", "What planet is known as the Red Planet?"],
+            history: ["Who was the first president of the United States?", "In what year did World War II end?"],
+            geography: ["What is the capital of France?", "Which river is the longest in the world?"],
+            art: ["Who painted the Mona Lisa?", "What are the primary colors?"],
+        };
+
+        function generateQuestion() {
+            const category = document.getElementById('categorySelector').value;
+            const randomIndex = Math.floor(Math.random() * questions[category].length);
+            const question = questions[category][randomIndex];
+            document.getElementById('questionDisplay').innerText = question;
+        }
+
+        document.getElementById('generateButton').addEventListener('click', generateQuestion);
+
+        // Shake gesture detection
+        window.addEventListener('devicemotion', function(event) {
+            const acceleration = event.acceleration;
+            if (acceleration.x > 15 || acceleration.y > 15 || acceleration.z > 15) {
+                generateQuestion();
+            }
+        });
+    </script>
+</body>
+</html>
